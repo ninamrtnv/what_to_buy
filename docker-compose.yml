@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: wtb_pg
+    image: postgres:14
+    environment:
+      POSTGRES_DB: wtb
+      POSTGRES_USER: wtb
+      POSTGRES_PASSWORD: wtb
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - ./migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "127.0.0.1:5433:5432"
+
+  bot:
+    container_name: wtb-bot
+    build: .
+    image: wtb
+    environment:
+      TG_BOT_API_KEY: 7679416384:AAE-YEuPRAypeWbVfkVUwKuWt8eWqwoSoOE
+      GROQ_API_KEY: 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
+      PSQL_HOST: wtb_pg
+      PSQL_PORT: 5432
+      PSQL_USER: wtb
+      PSQL_PASS: wtb
+      PSQL_DB: wtb
+
+
